@@ -1,0 +1,298 @@
+@import "~materialize-css/dist/css/materialize.min.css";
+
+body::-webkit-scrollbar {
+    width: 20px;
+}
+
+body::-webkit-scrollbar-track {
+    background: white;
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: var(--blueDark);
+    border-radius: 20px;
+    border: 3px solid white;
+}
+
+body {
+    background-color: #43B0F1;
+    overflow-wrap: break-word;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+.cnt-1 {
+    background-color: white;
+    height: 100%;
+    width: 55%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-form {
+    padding-top: 30%;
+}
+
+.cnt-2 {
+    background-color: var(--blueDark);
+    top: 0 !important;
+    min-height: 100vh;
+    width: 80%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cnt-3 {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    padding-bottom: 10px;
+}
+
+.favicon {
+    padding: 0 10px;
+    font-size: 20px;
+}
+
+input,
+textarea {
+    border-bottom: white 1px solid !important;
+    color: white;
+}
+
+input:enabled,
+textarea:enabled {
+    border-bottom: white 1px solid !important;
+}
+
+label {
+    color: white !important;
+}
+
+.btn {
+    background-color: #0070bb;
+    width: 100%;
+}
+
+.btn:hover {
+    background-color: #ffffff;
+    color: #024571;
+}
+
+.auth-links {
+    color: white;
+    font-size: 15px;
+}
+
+.a-underline {
+    color: white;
+    text-decoration: underline;
+}
+
+.login-text {
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.493);
+}
+
+.registration-form {
+    padding-top: 10%;
+}
+
+option,
+.option {
+    color: white !important;
+    background-color: #057DCD;
+}
+
+select {
+    color: white !important;
+    display: inline;
+    background-color: #057dcd00;
+}
+
+.error-item-list {
+    background-color: rgba(237, 54, 54, 0.5) !important;
+    color: white;
+    border: 1px solid white !important;
+    margin-bottom: 4px !important;
+}
+
+.errors-list {
+    border: none !important;
+}
+
+.searchWrapper {
+    border: none !important;
+    padding: 0 !important;
+}
+
+[type="checkbox"].filled-in:checked+span:not(.lever):after {
+    background-color: rgba(255, 255, 255, 0.253);
+    border: 2px solid white !important;
+}
+
+[type="checkbox"].filled-in:not(:checked)+span:not(.lever):after {
+    border: 2px solid white !important;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.j-c-b {
+    justify-content: space-between;
+}
+
+.m-t {
+    margin-top: 20px;
+}
+
+.m-t-s {
+    margin-top: 10px;
+}
+
+.m-b {
+    margin-bottom: 40px;
+}
+
+.m-t-l {
+    margin-top: 50px;
+}
+
+.f-w {
+    font-weight: 300;
+}
+
+.stick-bottomn {
+    bottom: 0;
+    position: absolute;
+}
+
+.p-relative {
+    position: relative;
+}
+
+.text-empty {
+    background-color: var(--blueLight);
+    color: white;
+}
+
+.pagination-ul {
+    text-align: center;
+    width: fit-content;
+    margin: 0 auto;
+    gap: 2px;
+    margin-bottom: 30px;
+}
+
+.pagination-ul li {
+    background-color: var(--blueDark);
+    font-size: 20px;
+    min-width: 25px;
+    border: 1px white solid;
+    cursor: pointer;
+}
+
+.pagination-ul li:hover {
+    border: #0070bb 1px solid;
+    background-color: var(--blueLight);
+
+}
+
+.pagination-ul li a {
+    color: white;
+}
+
+.pagination-ul .selected {
+    background-color: var(--blueLight);
+}
+
+.left-align {
+    margin-left: auto;
+    display: block;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.text-white {
+    color: white;
+    text-decoration: underline;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+
+@media screen and (max-width: 1000px) {
+    .cnt-1 {
+        width: 80%;
+    }
+}
+
+
+@media screen and (max-width: 993px) {
+    .brand-logo {
+        display: none !important;
+    }
+
+    ul.right{
+        display: flex;
+        justify-content: space-between !important;
+        width: 100%;
+        /* float: none !important; */
+    }
+}
+
+
+@media screen and (max-width: 900px) {
+    .sidenav---sidenav---_2tBP {
+        display: none;
+    }
+}
+
+
+@media screen and (max-width: 585px) {
+    ul.right li a{
+        padding: 0 10px;
+    }
+}
+
+
+@media screen and (max-width: 550px) {
+    .cnt-1 {
+        width: 100%;
+    }
+
+    .cnt-2{
+        width: 100%;
+    }
+
+    .cnt-1 .row .col.s6 {
+        width: 100%;
+    }
+
+    ul.right li a{
+        padding: 0 5px;
+    }
+}
+
+
+@media screen and (max-width: 500px) {
+    .navbar-text{
+        display: none;
+    }
+}

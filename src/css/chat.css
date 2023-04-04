@@ -1,0 +1,218 @@
+.chat {
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-right: 5px solid var(--darkBack);
+    background-color: var(--darkBack);
+}
+
+.chat .msg-input {
+    border-bottom: black 1px solid !important;
+    color: black;
+}
+
+.chat label {
+    color: var(--semiBlack) !important;
+}
+
+.chat-messages-cnt {
+    background-color: white;
+    height: 70% !important;
+    position: absolute;
+    width: 100%;
+    overflow-y: scroll;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.my-message {
+    margin-left: auto;
+    border-bottom-right-radius: 0 !important;
+    background-color: var(--blueDark) !important;
+}
+
+.not-my-message {
+    text-align: right;
+    margin-right: auto;
+    border-bottom-left-radius: 0 !important;
+}
+
+.chat-header {
+    border-bottom: 2px solid white;
+}
+
+.chat .row {
+    margin-bottom: 0 !important;
+}
+
+.chat .row .col {
+    height: 80vh;
+    position: relative;
+}
+
+.chat-navigation {
+    background-color: var(--blueLight);
+    /* height: 100% !important; */
+    overflow-y: scroll;
+    position: absolute;
+}
+
+.text-chat {
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+.selected-chat {
+    background-color: var(--darkBack);
+    color: black !important;
+    border: none !important;
+}
+
+.chat-profile-name {
+    color: white;
+    font-size: 18px;
+}
+
+.companion-name-link {
+    color: var(--black) !important;
+}
+
+.chat-item {
+    margin-bottom: 20px;
+    border-bottom: 2px white solid;
+}
+
+.user-chat-img {
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+    border: 2px solid white;
+    margin-right: 20px;
+}
+
+.chat-footer {
+    background-color: var(--darkBack);
+    padding-top: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 20%;
+}
+
+.chat-window {
+    padding: 0 !important;
+    border-left: 2px solid white;
+}
+
+.companion-name-chat {
+    color: white;
+}
+
+.chat-input {
+    width: 55%;
+    color: black;
+}
+
+.send-message-btn {
+    margin-top: 22px;
+    width: 20%;
+}
+
+.message {
+    font-weight: 300;
+    background-color: var(--blueLight);
+    width: fit-content;
+    border-radius: 8px;
+    padding: 10px 20px;
+    color: white;
+    margin-bottom: 20px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+.time-message {
+    color: rgba(255, 255, 255, 0.644);
+    font-size: 10px;
+}
+
+.empty-messages-text {
+    color: var(--blueDark);
+    text-align: center;
+}
+
+.empty-chats-text {
+    color: white;
+    text-align: center;
+}
+
+.last-message-chat {
+    color: white;
+    font-weight: 300;
+}
+
+.not-read {
+    background-color: rgb(170, 170, 170) !important;
+}
+
+.text-unread-messages-chat-item {
+    color: rgb(224, 224, 32);
+    ;
+}
+
+.message-attachment-input {
+    width: 20%;
+}
+
+.companion-name-chat a {
+    cursor: pointer;
+}
+
+
+@media screen and (max-width: 1200px) {
+    .chat {
+        width: 80%;
+    }
+}
+
+
+@media screen and (max-width: 900px) {
+    .chat {
+        width: 100%;
+    }
+}
+
+
+@media screen and (max-width: 730px) {
+    .chat-navigation-row .col.s4 {
+        width: 100% !important;
+    }
+
+    .chat-navigation{
+        min-height: auto !important;
+    }
+
+    .chat-navigation-row .col.s8 {
+        width: 100% !important;
+    }
+
+    .chat-header {
+        width: 100% !important;
+    }
+}
+
+
+@media screen and (max-width: 550px) {
+    .chat .chat-footer .chat-input {
+        width: 100%;
+    }
+
+    .msg-file-uploader {
+        margin-right: 10px;
+        margin-left: -5px;
+        padding-bottom: -2px;
+    }
+}

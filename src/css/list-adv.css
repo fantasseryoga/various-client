@@ -1,0 +1,144 @@
+.product-img-lg {
+    object-fit: cover;
+    width: 250px;
+    height: 250px;
+    border: 2px solid var(--blueDark);
+}
+
+.form-filter-cnt {
+    width: 60%;
+    margin: 0 auto;
+    background-color: var(--blueDark);
+    margin-top: 50px;
+    padding: 30px
+}
+
+.advertisement-cnt {
+    color: white;
+    background-color: var(--darkBack);
+    border: 1px solid var(--blueDark);
+    color: var(--black);
+    margin: 50px 0;
+    padding: 20px;
+}
+
+.advertisement-cnt .city-link,
+.advertisement-cnt .category-link {
+    color: var(--black);
+}
+
+
+@media screen and (max-width: 1400px) {
+    .advertisement-container {
+        width: 80%;
+    }
+
+    .form-filter-cnt {
+        width: 80%;
+    }
+}
+
+
+@media screen and (max-width: 1000px) {
+    .product-img-lg {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+
+@media screen and (max-width: 925px) {
+    .advertisement-cnt .m-t-l .row .col.s4 {
+        width: 50%;
+    }
+
+    .filtering-check-box {
+        width: 20% !important;
+    }
+
+    .row .adv-cost {
+        width: 100% !important;
+    }
+
+    .filter-city-multiselect {
+        width: 100% !important;
+    }
+
+    .filter-cost {
+        width: 50% !important;
+    }
+}
+
+
+@media screen and (max-width: 830px) {
+    .product-img-lg {
+        width: 150px;
+        height: 150px;
+    }
+
+    .filtering-check-box {
+        width: 30% !important;
+    }
+}
+
+
+@media screen and (max-width: 650px) {
+    .advertisement-cnt .row .col.s8 {
+        width: 100%;
+    }
+
+    .advertisement-cnt .row .col.adv-img-cnt {
+        width: 100%;
+    }
+
+    .product-img-lg {
+        width: 100%;
+        height: 300px;
+    }
+
+    .form-filter-cnt {
+        width: 100%;
+    }
+}
+
+
+@media screen and (max-width: 475px) {
+    .advertisement-container {
+        width: 100%;
+    }
+
+    .form-filter-cnt .row .col.s4,
+    .form-filter-cnt .row .col.s8 {
+        width: 100% !important;
+    }
+
+    .filtering-check-box {
+        width: 50% !important;
+    }
+
+    .m-t-l {
+        margin-top: 20px;
+    }
+}
+
+
+@media screen and (max-width: 350px) {
+    .advertisement-container .col.s4 {
+        width: 100% !important;
+        margin-top: 10px;
+    }
+
+    .adv-cities-list,
+    .adv-categories-list {
+        display: none;
+    }
+
+    .product-img-lg {
+        width: 100%;
+        height: 250px;
+    }
+
+    .advertisement-cnt {
+        padding-bottom: 0;
+    }
+}

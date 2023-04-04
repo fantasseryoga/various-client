@@ -1,0 +1,19 @@
+.sidenav---collapsed---LQDEv {
+    height: auto;
+    min-width: 64px !important;
+}
+
+.sidenav---expanded---1KdUL {
+    min-width: 240px;
+    height: auto;
+}
+
+.sidenav---sidenav-toggle---1KRjR:focus {
+    background-color: rgba(255, 255, 255, 0) !important;
+}
+
+.sidenav---sidenav---_2tBP {
+    background-color: var(--blueDark);
+    margin-top: 64px;
+    position: fixed;
+}

@@ -1,0 +1,22 @@
+.notification-msg-cnt {
+    background-color: rgb(186, 186, 186);
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 300px;
+    height: 100px;
+    border-radius: 20px 20px 0 20px;
+}
+
+.user-notification-img {
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+    border: 2px solid white;
+    margin-right: 20px;
+    border-radius: 20px 0 0 20px;
+}
+
+.text-msg-notification {
+    color: white;
+}
