@@ -39,7 +39,11 @@
       "react-app/jest"
     ]
   },
-  "proxy": "http://localhost:5000",
+  "buildpacks": [
+    {
+      "url": "https://github.com/mars/create-react-app-buildpack"
+    }
+  ],
   "browserslist": {
     "production": [
       ">0.2%",
