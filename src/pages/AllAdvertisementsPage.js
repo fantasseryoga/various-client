@@ -6,7 +6,6 @@ import { Footer } from "../components/Footer"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate, useParams } from 'react-router-dom'
-import { SideNavComponent } from '../components/SideNavComp'
 import { Multiselect } from 'multiselect-react-dropdown'
 import { Empty } from '../components/Empty'
 import ReactPaginate from 'react-paginate'
@@ -210,7 +209,6 @@ export const AllAdvertisementsPage = () => {
     return (
         <>
             <Navbar />
-            <SideNavComponent />
             <div className='form-filter-cnt'>
                 <h5 className='text-shadow center-align white-text m-b'>Search</h5>
                 <div className='row'>
@@ -354,7 +352,7 @@ export const AllAdvertisementsPage = () => {
                                                         {
                                                             el.categories.map(el => {
                                                                 return (
-                                                                    <span className='info-value' key={el._id}>&bull; <a className='category-link cursor-pointer' role='button' onClick={() => navigate('/advertisements-list/category/' + el._id)}>{el.name}</a></span>
+                                                                    <span className='info-value' key={el._id}>&bull; <a className='category-link cursor-pointer' role='button' >{el.name}</a></span>
                                                                 )
                                                             })
                                                         }
@@ -364,7 +362,7 @@ export const AllAdvertisementsPage = () => {
                                                         {
                                                             el.cities.map(el => {
                                                                 return (
-                                                                    <span className='info-value' key={el._id}>&bull; <a className='city-link cursor-pointer' role='button' onClick={() => navigate('/advertisements-list/city/' + el.name)}>{el.name}</a></span>
+                                                                    <span className='info-value' key={el._id}>&bull; <a className='city-link cursor-pointer' role='button' >{el.name}</a></span>
                                                                 )
                                                             })
                                                         }
