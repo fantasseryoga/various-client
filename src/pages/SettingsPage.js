@@ -175,7 +175,7 @@ export const SettingsPage = () => {
                     <div className='row'>
                         <div className="input-field col s6">
                             <input id="password" type="password" name="password" className="validate" onChange={changeHandler} />
-                            <label htmlFor="password">Password</label>
+                            <label htmlFor="password">Password {'(Needed for changes)'}</label>
                         </div>
                         <div className="input-field col s6">
                             <input id="newPassword" type="password" name="newPassword" className="validate" onChange={changeHandler} />
