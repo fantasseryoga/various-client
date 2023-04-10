@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import socketIO from "socket.io-client"
-const SERVER = "http://localhost:5000"
+const SERVER = "https://various.herokuapp.com"
 
 const storageName = 'userData'
 

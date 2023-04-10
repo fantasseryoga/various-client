@@ -27,7 +27,7 @@ export const ProductsPage = () => {
 
         try {
             const productId = event.target.name
-            const response = await request("api/products/delete-product", "POST", { productId: productId }, { token: auth.jwtToken })
+            const response = await request("/api/products/delete-product", "POST", { productId: productId }, { token: auth.jwtToken })
 
             if (response.status === 200) {
                 alert("Product has been deleted")

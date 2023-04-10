@@ -125,7 +125,7 @@ export const SettingsPage = () => {
 
     useEffect(() => {
         try {
-            fetch("api/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
+            fetch("https://various.herokuapp.comapi/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
 
             const userId = auth.userId
             request("/api/users/get-profile", "POST", { userId: userId }, { token: auth.jwtToken }).then(data => data.json()).then(userData => {

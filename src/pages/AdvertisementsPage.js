@@ -32,7 +32,7 @@ export const AdvertisementsPage = () => {
 
             const advId = event.target.name
 
-            const response = await request("api/advertisements/delete-advertisement", "POST", { advertisementId: advId }, { token: auth.jwtToken })
+            const response = await request("/api/advertisements/delete-advertisement", "POST", { advertisementId: advId }, { token: auth.jwtToken })
 
             if (response.status === 200) {
                 alert("Advertisement has been deleted")
@@ -59,7 +59,7 @@ export const AdvertisementsPage = () => {
             const status = advertisements.filter(item => item._id === advId)[0].status
             const newStatus = status === "active" ? "unactive" : "active"
 
-            const response = await request("api/advertisements/change-status", "POST", { advertisementId: advId, status: newStatus }, { token: auth.jwtToken })
+            const response = await request("/api/advertisements/change-status", "POST", { advertisementId: advId, status: newStatus }, { token: auth.jwtToken })
 
             if (response.status === 200) {
                 alert("Status was changed")

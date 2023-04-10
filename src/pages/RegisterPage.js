@@ -47,7 +47,7 @@ export const RegisterPage = () => {
 
                 return
             }
-            const response = await request("api/auth/register", "POST", { ...form })
+            const response = await request("/api/auth/register", "POST", { ...form })
 
 
             if (response.status === 400) {
@@ -77,7 +77,7 @@ export const RegisterPage = () => {
 
     useEffect(() => {
         try{
-            fetch("api/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
+            fetch("/api/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
         } catch (e) {
             setOptionsCity(["Lviv", "Kyiv", "Kharkiv"])
         }

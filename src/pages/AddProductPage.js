@@ -47,7 +47,7 @@ export const AddProductPage = () => {
             }
 
             const body = Object.fromEntries(Object.entries(product).filter(([_, v]) => v != null))
-            const response = await request("api/products/create-product", "POST", body, { token: auth.jwtToken })
+            const response = await request("/api/products/create-product", "POST", body, { token: auth.jwtToken })
 
             if (response.status === 201) {
                 alert("Product has been created")

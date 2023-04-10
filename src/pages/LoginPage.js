@@ -33,7 +33,7 @@ export const LoginPage = () => {
             return
         }
         try {
-            const response = await request("api/auth/login", "POST", { ...form })
+            const response = await request("/api/auth/login", "POST", { ...form })
             if (response.status === 400) {
                 const data = await response.json()
                 setFormErrors(data.errors.map(el => el.msg))

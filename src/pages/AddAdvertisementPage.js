@@ -37,7 +37,7 @@ export const AddAdvertisementPage = () => {
         }
 
         const body = Object.fromEntries(Object.entries(advertisement).filter(([_, v]) => v != null))
-        const response = await request("api/advertisements/create-advertisement", "POST", body, { token: auth.jwtToken })
+        const response = await request("/api/advertisements/create-advertisement", "POST", body, { token: auth.jwtToken })
 
         if (response.status === 201) {
             alert("Advertisement has been created")
@@ -102,8 +102,8 @@ export const AddAdvertisementPage = () => {
 
     useEffect(() => {
         try{
-            request("api/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
-            request("api/category/get-categories").then((data => data.json())).then((val) => setOptionsCategory(val.categories.map(el => {
+            request("/api/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
+            request("/api/category/get-categories").then((data => data.json())).then((val) => setOptionsCategory(val.categories.map(el => {
                 return { name: el.name, id: el._id }
             })))
 
