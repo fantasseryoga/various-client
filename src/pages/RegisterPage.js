@@ -81,7 +81,7 @@ export const RegisterPage = () => {
         } catch (e) {
             setOptionsCity(["Lviv", "Kyiv", "Kharkiv"])
         }
-    })
+    }, [])
 
     return (
         <>
