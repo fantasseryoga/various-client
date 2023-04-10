@@ -15,6 +15,9 @@ export const useHttp = () => {
                 body = JSON.stringify(body)
                 headers['Content-Type'] = 'application/json'
                 headers['Accept'] = 'application/json'
+                headers['Access-Control-Allow-Origin'] = '*'
+                headers['Access-Control-Allow-Credentials'] = 'true'
+                headers['Access-Control-Allow-Methods'] = 'GET,HEAD,OPTIONS,POST,PUT'
             }
 
             const response = await fetch(proxy + url, { method, body, headers })
