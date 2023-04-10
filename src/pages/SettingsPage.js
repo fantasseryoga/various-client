@@ -107,6 +107,9 @@ export const SettingsPage = () => {
     }
 
     const modeHandler = event => {
+        const sure = window.confirm("If you change the mode page will be refreshed, you sure?")
+        if(!sure) return
+
         if (auth.mode === "dark") {
             auth.mode = "light"
             localStorage.setItem("mode", JSON.stringify("light"))
@@ -116,6 +119,8 @@ export const SettingsPage = () => {
             setMode("dark")
             localStorage.setItem("mode", JSON.stringify("dark"))
         }
+
+        window.location.reload(false);
 
     }
 
