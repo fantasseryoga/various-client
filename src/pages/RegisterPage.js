@@ -77,7 +77,7 @@ export const RegisterPage = () => {
 
     useEffect(() => {
         try{
-            fetch("/api/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
+            fetch("https://various.herokuapp.com/api/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
         } catch (e) {
             setOptionsCity(["Lviv", "Kyiv", "Kharkiv"])
         }
