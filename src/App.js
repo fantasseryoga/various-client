@@ -1,7 +1,7 @@
 import { useRoutes } from './router'
 import { AuthContext } from './context/AuthContext';
 import { useAuth } from './hooks/auth.hook';
-import { BrowserRouter as Router, useLocation } from 'react-router-dom'
+import { HashRouter as Router, useLocation } from 'react-router-dom'
 import { useState } from 'react';
 import 'materialize-css'
 
