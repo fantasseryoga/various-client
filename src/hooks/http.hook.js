@@ -1,5 +1,6 @@
 import { useState, useCallback, useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
+const proxy = "https://various.herokuapp.com"
 
 export const useHttp = () => {
     const auth = useContext(AuthContext)
@@ -16,7 +17,7 @@ export const useHttp = () => {
                 headers['Accept'] = 'application/json'
             }
 
-            const response = await fetch(url, { method, body, headers })
+            const response = await fetch(proxy + url, { method, body, headers })
 
             setLoading(false)
 
