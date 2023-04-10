@@ -188,7 +188,7 @@ export const ChatPage = () => {
                                                 <AdvancedImage cldImg={emptyAvatar} className="user-chat-img" />
                                         }
                                         <div>
-                                            <a className='chat-profile-name' role='button' name={el._id} onClick={selectChatHandler}>{el.name}</a> <br /><br />
+                                            <a className='chat-profile-name cursor-pointer' role='button' name={el._id} onClick={selectChatHandler}>{el.name}</a> <br /><br />
                                             <span className='text-unread-messages-chat-item'>{el.unread ? "New Messages" : ""}</span>
                                         </div>
                                     </div>
