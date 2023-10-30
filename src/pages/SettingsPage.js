@@ -1,21 +1,21 @@
 import { React, useContext, useState, useEffect } from 'react'
-import { AuthContext } from '../context/AuthContext'
 import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
 import { useHttp } from '../hooks/http.hook'
 import { SideNavComponent } from '../components/SideNavComp'
 import { NotificationMSG } from '../components/Notification'
 import '../css/settings.css'
+import { useDispatch, useSelector } from 'react-redux'
 
 
 export const SettingsPage = () => {
-    const auth = useContext(AuthContext)
-    if (auth.mode === "dark") {
+    const mode = useSelector(state => state.mode)
+    if (mode === "dark") {
         import('../css/dark-mode.css')
     }
     const { loading, request } = useHttp()
     const [optionsCity, setOptionsCity] = useState([])
-    const [mode, setMode] = useState(auth.mode)
+    const [modeP, setMode] = useState(mode)
     const [formErrors, setFormErrors] = useState([])
     const [user, setUser] = useState({
         firstName: "",
@@ -35,6 +35,12 @@ export const SettingsPage = () => {
         newPassword: null,
         avatar: null
     })
+    const dispatch = useDispatch()
+    const token = useSelector(state => state.token)
+    const logout = useSelector(state => state.logout)
+    const userId = useSelector(state => state.userId)
+    const newMessage = useSelector(state => state.newMessage)
+    const newMessageFlag = useSelector(state => state.newMessageFlag)
 
     const updateHandler = async () => {
         if (!form.password) {
@@ -48,7 +54,7 @@ export const SettingsPage = () => {
 
         try {
             const body = Object.fromEntries(Object.entries(form).filter(([_, v]) => v != null));
-            const response = await request("/api/users/update-user", "POST", body, { token: auth.jwtToken })
+            const response = await request("/api/users/update-user", "POST", body, { token: token })
             if (response.status === 200) {
                 const data = await response.json()
                 localStorage.setItem("avatar", JSON.stringify(data.user.avatar))
@@ -72,10 +78,10 @@ export const SettingsPage = () => {
         }
 
         try {
-            const response = await request("/api/users/deactivate-user", "POST", { userId: auth.userId }, { token: auth.jwtToken })
+            const response = await request("/api/users/deactivate-user", "POST", { userId: userId }, { token: token })
             if (response.status === 200) {
                 alert("This account has been deleated")
-                auth.logout()
+                logout()
             } else {
                 alert("Something went wrong")
             }
@@ -110,12 +116,12 @@ export const SettingsPage = () => {
         const sure = window.confirm("If you change the mode page will be refreshed, you sure?")
         if(!sure) return
 
-        if (auth.mode === "dark") {
-            auth.mode = "light"
+        if (modeP === "dark") {
+            dispatch({type: "SET_MODE", payload: "light"})
             localStorage.setItem("mode", JSON.stringify("light"))
             setMode("light")
         } else {
-            auth.mode = "dark"
+            dispatch({type: "SET_MODE", payload: "dark"})
             setMode("dark")
             localStorage.setItem("mode", JSON.stringify("dark"))
         }
@@ -130,10 +136,10 @@ export const SettingsPage = () => {
 
     useEffect(() => {
         try {
-            fetch("https://various.herokuapp.com/api/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
+            fetch("api/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
 
-            const userId = auth.userId
-            request("/api/users/get-profile", "POST", { userId: userId }, { token: auth.jwtToken }).then(data => data.json()).then(userData => {
+            const userIdP = userId
+            request("/api/users/get-profile", "POST", { userId: userIdP }, { token: token }).then(data => data.json()).then(userData => {
                 setUser(userData.profile)
             })
         } catch (e) {
@@ -220,10 +226,10 @@ export const SettingsPage = () => {
                 <div className='profile-cnt'>
                     <div className='row main-btns-row'>
                         <div className='col s4'>
-                            <a className='btn' onClick={auth.logout}>Logout</a>
+                            <a className='btn' onClick={logout}>Logout</a>
                         </div>
                         <div className='col s4 align-center'>
-                            <a className={mode === "dark" ? 'btn swtch-mode-light' : 'btn swtch-mode-dark'} onClick={modeHandler}>{mode === "dark" ? "light" : "dark"}</a>
+                            <a className={modeP === "dark" ? 'btn swtch-mode-light' : 'btn swtch-mode-dark'} onClick={modeHandler}>{modeP === "dark" ? "light" : "dark"}</a>
                         </div>
                         <div className='col s4'>
                             <a className='btn delete-acc' onClick={deleteHandler}>Terminate</a>
@@ -233,9 +239,9 @@ export const SettingsPage = () => {
             </div>
             <Footer />
             {
-                auth.newMessageFlag
+                newMessageFlag
                     ?
-                    <NotificationMSG message={auth.newMessage} />
+                    <NotificationMSG message={newMessage} />
                     :
                     ""
             }

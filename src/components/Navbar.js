@@ -1,36 +1,41 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AuthContext } from '../context/AuthContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShop, faMessage, faList, faRightFromBracket, faUserTie } from '@fortawesome/free-solid-svg-icons'
 import { useHttp } from '../hooks/http.hook'
 import '../css/navbar.css'
+import { useDispatch, useSelector } from 'react-redux'
 
 
 export const Navbar = (chat = null) => {
     const navigate = useNavigate()
-    const auth = useContext(AuthContext)
     const { request } = useHttp()
-    const [newMessage, setNewMessage] = useState(false)
+    const [newMessageP, setNewMessage] = useState(false)
+    const token = useSelector(state => state.token)
+    const logout = useSelector(state => state.logout)
+    const socket = useSelector(state => state.socket)
+    const newMessage = useSelector(state => state.newMessage)
+    const newMessageFlag = useSelector(state => state.newMessageFlag)
+    const dispatch = useDispatch()
 
     const logoutHandler = event => {
         if (Object.keys(chat).length) {
             console.log(chat)
-            auth.socket.emit('leave-chat', { chatId: chat.chat })
+            socket.emit('leave-chat', { chatId: chat.chat })
         }
         event.preventDefault()
-        auth.logout()
+        logout()
         navigate('/')
     }
 
     const navigateTo = (event) => {
         if (Object.keys(chat).length) {
-            auth.socket.emit('leave-chat', { chatId: chat.chat }, { token: auth.jwtToken })
+            socket.emit('leave-chat', { chatId: chat.chat }, { token: token })
         }
     }
 
     useEffect(() => {
-        request("/api/chats/get-unread-messages", "POST", {}, { token: auth.jwtToken }).then(data => data.json()).then(
+        request("/api/chats/get-unread-messages", "POST", {}, { token: token }).then(data => data.json()).then(
             msgData => {
                 if (msgData.unreadExists) {
                     setNewMessage(true)
@@ -58,10 +63,10 @@ export const Navbar = (chat = null) => {
                         </a>
                         {/* <a href="#" data-target="mobile-demo" className="sidenav-trigger"><FontAwesomeIcon icon={faShop} className="favicon" /></a> */}
                         <ul className="right">
-                            <li><a role='button' id="/chat" onClick={() => { setNewMessage(false); auth.newMessageFlag = false; auth.newMessage = null; navigateTo(); navigate("/chat") }}>
+                            <li><a role='button' id="/chat" onClick={() => { setNewMessage(false); dispatch({type: "SET_MSG", payload: {newMessage: null, newMessageFlag: false}}); navigateTo(); navigate("/chat") }}>
                                 <FontAwesomeIcon icon={faMessage} className="favicon" />
                                 <span className='navbar-text'>
-                                    <span className='navbar-new-msg-txt'>{newMessage ? "New " : (auth.newMessage ? "New " : "")}</span>
+                                    <span className='navbar-new-msg-txt'>{newMessageP ? "New " : (newMessage ? "New " : "")}</span>
                                     Messages
                                 </span>
                             </a></li>

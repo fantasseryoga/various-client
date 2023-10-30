@@ -1,11 +1,11 @@
 import { useState, useCallback, useContext } from 'react'
-import { AuthContext } from '../context/AuthContext'
-const proxy = "https://various.herokuapp.com"
+import { useSelector } from 'react-redux'
+const proxy = ""
 
 export const useHttp = () => {
-    const auth = useContext(AuthContext)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
+    const logout = useSelector(state => state.logout)
 
     const request = useCallback(async (url, method = 'GET', body = null, headers = {}) => {
         setLoading(true)
@@ -22,7 +22,7 @@ export const useHttp = () => {
             setLoading(false)
 
             if (response.status === 401) {
-                auth.logout()
+                logout()
             }
 
             return response

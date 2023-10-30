@@ -3,14 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faInstagram, faTelegram } from '@fortawesome/free-brands-svg-icons'
 import { useHttp } from "../hooks/http.hook"
-import { AuthContext } from "../context/AuthContext"
 import { useNavigate } from 'react-router-dom'
 import '../css/auth.css'
 import '../css/loading.css'
-
+import { useSelector } from 'react-redux'
 
 export const LoginPage = () => {
-    const auth = useContext(AuthContext)
     const navigate = useNavigate()
     const { loading, request } = useHttp()
     const [formErrors, setFormErrors] = useState([])
@@ -18,6 +16,7 @@ export const LoginPage = () => {
         email: '',
         password: ''
     })
+    const login = useSelector(state => state.login)
 
     useEffect(() => {
         window.M.updateTextFields()
@@ -47,7 +46,7 @@ export const LoginPage = () => {
                     localStorage.setItem("avatar", "/various/static/avatar-empty_xqyyk1")
                 }
 
-                auth.login(data.token, data.userId)
+                login(data.token, data.userId)
                 setFormErrors([])
             }
 

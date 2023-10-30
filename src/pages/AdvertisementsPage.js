@@ -1,11 +1,10 @@
 import { React, useContext, useEffect, useState } from 'react'
-import { AuthContext } from "../context/AuthContext"
 import { useHttp } from "../hooks/http.hook"
 import { Navbar } from "../components/Navbar"
 import { Footer } from "../components/Footer"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { SideNavComponent } from '../components/SideNavComp'
 import { Empty } from '../components/Empty'
 import { AdvancedImage } from "@cloudinary/react"
@@ -13,17 +12,21 @@ import { fill } from "@cloudinary/url-gen/actions/resize";
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import { NotificationMSG } from '../components/Notification'
 import '../css/user-adv.css'
+import { useSelector } from 'react-redux'
 
 
 export const AdvertisementsPage = () => {
     const emptyImage = new CloudinaryImage('/various/products/product_empty_spnh8q', { cloudName: 'deelxfjof' }).resize(fill().width(250).height(250));
-    const auth = useContext(AuthContext)
     const userIdParam = useParams().id
     const navigate = useNavigate()
     const { request } = useHttp()
     const [self, setSelf] = useState(false)
     const [empty, setEmpty] = useState(false)
     const [advertisements, setAdvertisements] = useState([])
+    const token = useSelector(state => state.token)
+    const userId = useSelector(state => state.userId)
+    const newMessage = useSelector(state => state.newMessage)
+    const newMessageFlag = useSelector(state => state.newMessageFlag)
 
     const deleteHandler = async (event) => {
         try {
@@ -32,7 +35,7 @@ export const AdvertisementsPage = () => {
 
             const advId = event.target.name
 
-            const response = await request("/api/advertisements/delete-advertisement", "POST", { advertisementId: advId }, { token: auth.jwtToken })
+            const response = await request("/api/advertisements/delete-advertisement", "POST", { advertisementId: advId }, { token: token })
 
             if (response.status === 200) {
                 alert("Advertisement has been deleted")
@@ -59,7 +62,7 @@ export const AdvertisementsPage = () => {
             const status = advertisements.filter(item => item._id === advId)[0].status
             const newStatus = status === "active" ? "unactive" : "active"
 
-            const response = await request("/api/advertisements/change-status", "POST", { advertisementId: advId, status: newStatus }, { token: auth.jwtToken })
+            const response = await request("/api/advertisements/change-status", "POST", { advertisementId: advId, status: newStatus }, { token: token })
 
             if (response.status === 200) {
                 alert("Status was changed")
@@ -85,9 +88,9 @@ export const AdvertisementsPage = () => {
 
     useEffect(() => {
         try {
-            const userId = userIdParam ? userIdParam : auth.userId
+            const userIdP = userIdParam ? userIdParam : userId
 
-            request("/api/advertisements/get-advertisements", "POST", { userId: userId }, { token: auth.jwtToken }).then(response => {
+            request("/api/advertisements/get-advertisements", "POST", { userId: userIdP }, { token: token }).then(response => {
                 if (response.status === 400) {
                     setEmpty(true)
                     if (!userIdParam) {
@@ -226,9 +229,9 @@ export const AdvertisementsPage = () => {
             }
             <Footer />
             {
-                auth.newMessageFlag
+                newMessageFlag
                     ?
-                    <NotificationMSG message={auth.newMessage} />
+                    <NotificationMSG message={newMessage} />
                     :
                     ""
             }

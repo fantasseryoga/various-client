@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faInstagram, faTelegram } from '@fortawesome/free-brands-svg-icons'
 import { useHttp } from "../hooks/http.hook"
-import { AuthContext } from "../context/AuthContext"
 import { useNavigate } from "react-router-dom"
 import '../css/auth.css'
 import '../css/loading.css'
@@ -77,7 +76,7 @@ export const RegisterPage = () => {
 
     useEffect(() => {
         try{
-            fetch("https://various.herokuapp.com/api/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
+            fetch("api/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
         } catch (e) {
             setOptionsCity(["Lviv", "Kyiv", "Kharkiv"])
         }

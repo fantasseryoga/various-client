@@ -1,5 +1,4 @@
 import { React, useContext, useEffect, useState } from 'react'
-import { AuthContext } from "../context/AuthContext"
 import { useHttp } from "../hooks/http.hook"
 import { Navbar } from "../components/Navbar"
 import { Footer } from "../components/Footer"
@@ -13,11 +12,11 @@ import { fill } from "@cloudinary/url-gen/actions/resize";
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import { NotificationMSG } from '../components/Notification'
 import '../css/profile.css'
+import { useDispatch, useSelector } from 'react-redux'
 
 
 export const ProfilePage = () => {
     const emptyImage = new CloudinaryImage('/various/static/avatar-empty_xqyyk1', { cloudName: 'deelxfjof' }).resize(fill().width(250).height(250));
-    const auth = useContext(AuthContext)
     const userIdParam = useParams().id
     const navigate = useNavigate()
     const { loading, request } = useHttp()
@@ -32,12 +31,16 @@ export const ProfilePage = () => {
         since: "",
         avatar: null
     })
+    const token = useSelector(state => state.token)
+    const userId = useSelector(state => state.userId)
+    const newMessage = useSelector(state => state.newMessage)
+    const newMessageFlag = useSelector(state => state.newMessageFlag)
 
     useEffect(() => {
-        const userId = userIdParam ? userIdParam : auth.userId
+        const userIdP = userIdParam ? userIdParam : userId
 
         try {
-            request("/api/users/get-profile", "POST", { userId: userId }, { token: auth.jwtToken }).then(data => data.json()).then(userData => {
+            request("/api/users/get-profile", "POST", { userId: userIdP }, { token: token }).then(data => data.json()).then(userData => {
                 setUser(userData.profile)
                 setSelf(userData.self)
             })
@@ -127,9 +130,9 @@ export const ProfilePage = () => {
             </div>
             <Footer />
             {
-                auth.newMessageFlag
+                newMessageFlag
                     ?
-                    <NotificationMSG message={auth.newMessage} />
+                    <NotificationMSG message={newMessage} />
                     :
                     ""
             }

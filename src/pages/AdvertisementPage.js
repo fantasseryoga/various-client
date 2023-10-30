@@ -1,5 +1,4 @@
 import { React, useContext, useEffect, useState } from 'react'
-import { AuthContext } from "../context/AuthContext"
 import { useHttp } from "../hooks/http.hook"
 import { Navbar } from "../components/Navbar"
 import { Footer } from "../components/Footer"
@@ -16,12 +15,12 @@ import { CloudinaryImage } from '@cloudinary/url-gen';
 import { NotificationMSG } from '../components/Notification'
 import 'react-tabs/style/react-tabs.css';
 import '../css/advertisement.css'
+import { useSelector } from 'react-redux'
 
 
 export const AdvertisementPage = () => {
     const emptyAvatar = new CloudinaryImage('/various/static/avatar-empty_xqyyk1', { cloudName: 'deelxfjof' }).resize(fill().width(250).height(250));
     const emptyImage = new CloudinaryImage('/various/products/product_empty_spnh8q', { cloudName: 'deelxfjof' }).resize(fill().width(250).height(250));
-    const auth = useContext(AuthContext)
     const avatarUser = JSON.parse(localStorage.getItem("avatar"))
     const userData = JSON.parse(localStorage.getItem("userData"))
     const advIdParam = useParams().id
@@ -47,6 +46,9 @@ export const AdvertisementPage = () => {
         advComments: [],
         user: ""
     })
+    const token = useSelector(state => state.token)
+    const newMessage = useSelector(state => state.newMessage)
+    const newMessageFlag = useSelector(state => state.newMessageFlag)
 
     const handleRating = (rate) => {
         setRating(rate)
@@ -62,7 +64,7 @@ export const AdvertisementPage = () => {
             const sure = window.confirm("You can rate advertisement only once. This action can't be undone.")
             if (!sure) return
 
-            const response = await request("/api/ratings/create-rating", "POST", { ratingValue: rating, advertisementId: advIdParam, text: ratingText }, { token: auth.jwtToken })
+            const response = await request("/api/ratings/create-rating", "POST", { ratingValue: rating, advertisementId: advIdParam, text: ratingText }, { token: token })
 
             if (response.status === 400) {
                 alert("You already rated this advertisement")
@@ -104,7 +106,7 @@ export const AdvertisementPage = () => {
 
     const commentHandler = async () => {
         try {
-            const response = await request("/api/comments/create-comment", "POST", { text: commentText, advertisementId: advIdParam }, { token: auth.jwtToken })
+            const response = await request("/api/comments/create-comment", "POST", { text: commentText, advertisementId: advIdParam }, { token: token })
 
             if (response.status === 201) {
                 const data = await response.json()
@@ -138,7 +140,7 @@ export const AdvertisementPage = () => {
             const sure = window.confirm("You sure you want to delete this comment?")
             if (!sure) return
 
-            const response = await request("/api/comments/delete-comment", "POST", { commentId: commentId }, { token: auth.jwtToken })
+            const response = await request("/api/comments/delete-comment", "POST", { commentId: commentId }, { token: token })
 
             if (response.status === 400) {
                 alert("You dont have such permission.")
@@ -161,7 +163,7 @@ export const AdvertisementPage = () => {
 
     useEffect(() => {
         try {
-            request("/api/advertisements/get-advertisement-by-id", "POST", { advertisementId: advIdParam }, { token: auth.jwtToken }).then(data => data.json()).then(advData => {
+            request("/api/advertisements/get-advertisement-by-id", "POST", { advertisementId: advIdParam }, { token: token }).then(data => data.json()).then(advData => {
                 setAdvertisement(advData.advertisement)
                 setAdvComments(advData.advertisement.advComments)
                 setAdvRatings(advData.advertisement.advRatings)
@@ -183,7 +185,7 @@ export const AdvertisementPage = () => {
                             {
                                 advertisement.image
                                     ?
-                                    <AdvancedImage cldImg={new CloudinaryImage(advertisement.image, { cloudName: 'deelxfjof' }).resize(fill().width(250).height(250))} className="adv-img" />
+                                    <AdvancedImage cldImg={new CloudinaryImage(advertisement.image, { cloudName: 'deelxfjof' }).resize(fill().width(500).height(250))} className="adv-img" />
                                     :
                                     <AdvancedImage cldImg={emptyImage} className="adv-img" />
                             }
@@ -434,9 +436,9 @@ export const AdvertisementPage = () => {
             </div>
             <Footer />
             {
-                auth.newMessageFlag
+                newMessageFlag
                     ?
-                    <NotificationMSG message={auth.newMessage} />
+                    <NotificationMSG message={newMessage} />
                     :
                     ""
             }

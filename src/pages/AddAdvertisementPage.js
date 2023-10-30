@@ -1,5 +1,4 @@
 import { React, useContext, useEffect, useState } from 'react'
-import { AuthContext } from "../context/AuthContext"
 import { useHttp } from "../hooks/http.hook"
 import { Navbar } from "../components/Navbar"
 import { Footer } from "../components/Footer"
@@ -10,11 +9,11 @@ import { fill } from "@cloudinary/url-gen/actions/resize";
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import { NotificationMSG } from '../components/Notification'
 import '../css/add-adv.css'
+import { useSelector } from 'react-redux'
 
 
 export const AddAdvertisementPage = () => {
     const emptyImageProduct = new CloudinaryImage('/various/products/product_empty_spnh8q', { cloudName: 'deelxfjof' }).resize(fill().width(250).height(250));
-    const auth = useContext(AuthContext)
     const { loading, request } = useHttp()
     const [formErrors, setFormErrors] = useState([])
     const [optionsCity, setOptionsCity] = useState([])
@@ -29,6 +28,10 @@ export const AddAdvertisementPage = () => {
         products: [],
         image: null
     })
+    const token = useSelector(state => state.token)
+    const userId = useSelector(state => state.userId)
+    const newMessage = useSelector(state => state.newMessage)
+    const newMessageFlag = useSelector(state => state.newMessageFlag)
 
     const addAdvertisementHandler = async () => {
         if (!advertisement.title || !advertisement.price || !advertisement.description || !advertisement.city || !advertisement.categories || !advertisement.products) {
@@ -37,7 +40,7 @@ export const AddAdvertisementPage = () => {
         }
 
         const body = Object.fromEntries(Object.entries(advertisement).filter(([_, v]) => v != null))
-        const response = await request("/api/advertisements/create-advertisement", "POST", body, { token: auth.jwtToken })
+        const response = await request("/api/advertisements/create-advertisement", "POST", body, { token: token })
 
         if (response.status === 201) {
             alert("Advertisement has been created")
@@ -107,7 +110,7 @@ export const AddAdvertisementPage = () => {
                 return { name: el.name, id: el._id }
             })))
 
-            request("/api/products/get-products-by-user", "POST", { userId: auth.userId }, { token: auth.jwtToken }).then(data => data.json()).then(productData => {
+            request("/api/products/get-products-by-user", "POST", { userId: userId }, { token: token }).then(data => data.json()).then(productData => {
                 setOptionsProducts(productData.products.map(el => {
                     const name = el.name.slice(0, 15) + '... ' + el.createdOn.slice(0, 10)
                     return { id: el._id, name: name, realName: el.name, description: el.description, createdOn: el.createdOn, image: el.image }
@@ -248,9 +251,9 @@ export const AddAdvertisementPage = () => {
             </div>
             <Footer />
             {
-                auth.newMessageFlag
+                newMessageFlag
                     ?
-                    <NotificationMSG message={auth.newMessage} />
+                    <NotificationMSG message={newMessage} />
                     :
                     ""
             }

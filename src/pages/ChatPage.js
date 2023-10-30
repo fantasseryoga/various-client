@@ -1,5 +1,4 @@
 import { React, useContext, useEffect, useRef, useState } from 'react'
-import { AuthContext } from "../context/AuthContext"
 import { Navbar } from "../components/Navbar"
 import { Footer } from "../components/Footer"
 import { useNavigate, useParams } from 'react-router-dom'
@@ -8,11 +7,11 @@ import { AdvancedImage } from "@cloudinary/react"
 import { fill } from "@cloudinary/url-gen/actions/resize";
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import '../css/chat.css'
+import { useSelector } from 'react-redux'
 
 
 export const ChatPage = () => {
     const emptyAvatar = new CloudinaryImage('/various/static/avatar-empty_xqyyk1', { cloudName: 'deelxfjof' }).resize(fill().width(250).height(250));
-    const auth = useContext(AuthContext)
     const userIdParam = useParams().userId
     const navigate = useNavigate()
     const dummyDivToScroll = useRef()
@@ -34,10 +33,13 @@ export const ChatPage = () => {
         surName: "",
         _id: null
     })
+    const token = useSelector(state => state.token)
+    const userId = useSelector(state => state.userId)
+    const socket = useSelector(state => state.socket)
 
-    const [connected, setConnected] = useState(auth.socket ? auth.socket.connected : false)
+    const [connected, setConnected] = useState(socket ? socket.connected : false)
     if(!connected){
-        auth.socket.on('connected', () => { setConnected(true) })
+        socket.on('connected', () => { setConnected(true) })
     }
     
     const changeHandler = (event) => {
@@ -46,7 +48,7 @@ export const ChatPage = () => {
 
     const onMessageSend = event => {
         try {
-            auth.socket.emit("send-message", { chatId: currentChat._id, msg: inputTextRef.current.value, attachment: fileSend }, { token: auth.jwtToken })
+            socket.emit("send-message", { chatId: currentChat._id, msg: inputTextRef.current.value, attachment: fileSend }, { token: token })
             setInputText("")
             setFileSend(null)
             inputTextRef.current.value = ""
@@ -80,7 +82,7 @@ export const ChatPage = () => {
     const selectChatHandler = (event) => {
         try {
             const chatId = event.target.name
-            auth.socket.emit('join-chat', { chatId: chatId }, { token: auth.jwtToken })
+            socket.emit('join-chat', { chatId: chatId }, { token: token })
         }
         catch (e) {
             console.log(e)
@@ -90,7 +92,7 @@ export const ChatPage = () => {
 
     const configureSocket = () => {
         try {
-            auth.socket.on('get-chats', chats => {
+            socket.on('get-chats', chats => {
                 if (chats.chats) {
                     setChats(chats.chats)
                     chats.chats.forEach(el => {
@@ -102,7 +104,7 @@ export const ChatPage = () => {
                 }
             })
 
-            auth.socket.on('join-chat', chat => {
+            socket.on('join-chat', chat => {
                 if (chat.chat) {
                     setCurrentChat(chat.chat)
                     setCurrentCompanion(chat.companion)
@@ -119,14 +121,14 @@ export const ChatPage = () => {
                 }
             })
 
-            auth.socket.on('send-message', message => {
+            socket.on('send-message', message => {
                 if (message.message) {
                     console.log(message.message)
                     setCurrentChat({ ...currentChat, messages: [...currentChat.messages, message.message] })
                 }
             })
 
-            auth.socket.on('companion-entered', () => {
+            socket.on('companion-entered', () => {
                 const readMessages = currentChat.messages.map(el => {
                     if (!el.read) el.read = true
                     return el
@@ -143,9 +145,9 @@ export const ChatPage = () => {
     useEffect(() => {
         if(connected){
             if (userIdParam) {
-                auth.socket.emit("get-chats", { profileId: userIdParam }, { token: auth.jwtToken })
+                socket.emit("get-chats", { profileId: userIdParam }, { token: token })
             } else {
-                auth.socket.emit("get-chats", { profileId: null }, { token: auth.jwtToken })
+                socket.emit("get-chats", { profileId: null }, { token: token })
             }
         }
     }, [connected])
@@ -205,7 +207,7 @@ export const ChatPage = () => {
                                 currentChat.messages.length ?
                                     currentChat.messages.map(el => {
                                         return (
-                                            <div key={el._id} className={el.createdBy === auth.userId ? (el.read ? 'message my-message' : 'message my-message not-read') : 'message not-my-message'}>
+                                            <div key={el._id} className={el.createdBy === userId ? (el.read ? 'message my-message' : 'message my-message not-read') : 'message not-my-message'}>
                                                 {
                                                     el.attachment
                                                         ?

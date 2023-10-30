@@ -1,15 +1,14 @@
 import { React, useContext, useEffect, useState } from 'react'
-import { AuthContext } from "../context/AuthContext"
 import { useHttp } from "../hooks/http.hook"
 import { Navbar } from "../components/Navbar"
 import { Footer } from "../components/Footer"
 import { SideNavComponent } from '../components/SideNavComp'
 import { NotificationMSG } from '../components/Notification'
 import '../css/profile.css'
+import { useSelector } from 'react-redux'
 
 
 export const AddProductPage = () => {
-    const auth = useContext(AuthContext)
     const { loading, request } = useHttp()
     const [formErrors, setFormErrors] = useState([])
     const [product, setProduct] = useState({
@@ -17,6 +16,9 @@ export const AddProductPage = () => {
         desctiption: "",
         image: null
     })
+    const token = useSelector(state => state.token)
+    const newMessage = useSelector(state => state.newMessage)
+    const newMessageFlag = useSelector(state => state.newMessageFlag)
 
     const changeHandler = event => {
         setProduct({ ...product, [event.target.name]: event.target.value })
@@ -47,7 +49,7 @@ export const AddProductPage = () => {
             }
 
             const body = Object.fromEntries(Object.entries(product).filter(([_, v]) => v != null))
-            const response = await request("/api/products/create-product", "POST", body, { token: auth.jwtToken })
+            const response = await request("/api/products/create-product", "POST", body, { token: token })
 
             if (response.status === 201) {
                 alert("Product has been created")
@@ -125,9 +127,9 @@ export const AddProductPage = () => {
             </div>
             <Footer />
             {
-                auth.newMessageFlag
+                newMessageFlag
                     ?
-                    <NotificationMSG message={auth.newMessage} />
+                    <NotificationMSG message={newMessage} />
                     :
                     ""
             }

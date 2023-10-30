@@ -7,17 +7,18 @@ import { faGithub, faInstagram, faTelegram } from '@fortawesome/free-brands-svg-
 import { useHttp } from '../hooks/http.hook';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import '../css/side-nav.css'
-import { AuthContext } from '../context/AuthContext';
+import { useSelector } from 'react-redux';
 
 export const SideNavComponent = (chat = null) => {
-    const auth = useContext(AuthContext)
     const navigate = useNavigate()
     const { request } = useHttp()
     const [categories, setCategories] = useState([])
+    const token = useSelector(state => state.token)
+    const socket = useSelector(state => state.socket)
 
     const navigateTo = (url) => {
         if(Object.keys(chat).length){
-            auth.socket.emit('leave-chat', { chatId: chat.chat}, { token: auth.jwtToken})
+            socket.emit('leave-chat', { chatId: chat.chat}, { token: token})
         }
         navigate(url)
     }

@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import socketIO from "socket.io-client"
-const SERVER = "https://various.herokuapp.com"
+import { useDispatch, useSelector } from 'react-redux'
+const SERVER = ""
 
 const storageName = 'userData'
 
@@ -9,10 +10,14 @@ export const useAuth = () => {
     const [ready, setReady] = useState(false)
     const [socket, setSocket] = useState(null)
     const [userId, setUserId] = useState(null)
+    const dispatch = useDispatch()
+
 
     const login = useCallback((jwt, userId) => {
         setJwtToken(jwt)
         setUserId(userId)
+        dispatch({type: "SET_TOKEN", payload: jwt})
+        dispatch({type: "SET_USER_ID", payload: userId})
         localStorage.setItem(storageName, JSON.stringify({
             token: jwt,
             userId: userId
@@ -23,6 +28,8 @@ export const useAuth = () => {
         setSocket(null)
         setJwtToken(null)
         setUserId(null)
+        dispatch({type: "SET_TOKEN", payload: null})
+        dispatch({type: "SET_USER_ID", payload: null})
         alert("Succesfully loged out")
         localStorage.removeItem(storageName)
         localStorage.removeItem("socket")

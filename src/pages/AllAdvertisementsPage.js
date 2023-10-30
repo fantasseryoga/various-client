@@ -1,5 +1,4 @@
 import { createRef, React, useContext, useEffect, useState, componentDidUpdate, useRef } from 'react'
-import { AuthContext } from "../context/AuthContext"
 import { useHttp } from "../hooks/http.hook"
 import { Navbar } from "../components/Navbar"
 import { Footer } from "../components/Footer"
@@ -14,11 +13,11 @@ import { fill } from "@cloudinary/url-gen/actions/resize";
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import { NotificationMSG } from '../components/Notification'
 import '../css/list-adv.css'
+import { useSelector } from 'react-redux'
 
 
 export const AllAdvertisementsPage = () => {
     const emptyImage = new CloudinaryImage('/various/products/product_empty_spnh8q', { cloudName: 'deelxfjof' }).resize(fill().width(250).height(250));
-    const auth = useContext(AuthContext)
     const categoryId = useParams().categoryId
     const cityName = useParams().cityName
     const navigate = useNavigate()
@@ -42,13 +41,16 @@ export const AllAdvertisementsPage = () => {
         priceMax: null,
         page: 0
     })
+    const token = useSelector(state => state.token)
+    const newMessage = useSelector(state => state.newMessage)
+    const newMessageFlag = useSelector(state => state.newMessageFlag)
 
     const liveSearch = async () => {
         try {
             const body = Object.fromEntries(Object.entries(form).filter(([_, v]) => v != null))
             body.page = 0
 
-            await request("/api/advertisements/get-advertisements-by-filter", "POST", body, { token: auth.jwtToken }).then(res => {
+            await request("/api/advertisements/get-advertisements-by-filter", "POST", body, { token: token }).then(res => {
                 if (res.status === 200) {
                     return res.json()
                 }
@@ -172,7 +174,7 @@ export const AllAdvertisementsPage = () => {
                 body.cities = [cityName]
                 body.page = page
             }
-            request("/api/advertisements/get-advertisements-by-filter", "POST", body, { token: auth.jwtToken }).then(response => {
+            request("/api/advertisements/get-advertisements-by-filter", "POST", body, { token: token }).then(response => {
                 if (response.status === 400) {
                     return
                 }
@@ -391,9 +393,9 @@ export const AllAdvertisementsPage = () => {
             </div>
             <Footer />
             {
-                auth.newMessageFlag
+                newMessageFlag
                     ?
-                    <NotificationMSG message={auth.newMessage} />
+                    <NotificationMSG message={newMessage} />
                     :
                     ""
             }

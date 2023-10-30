@@ -1,5 +1,4 @@
 import { React, useContext, useEffect, useState } from 'react'
-import { AuthContext } from "../context/AuthContext"
 import { useHttp } from "../hooks/http.hook"
 import { Navbar } from "../components/Navbar"
 import { Footer } from "../components/Footer"
@@ -11,15 +10,19 @@ import { CloudinaryImage } from '@cloudinary/url-gen';
 import { NotificationMSG } from '../components/Notification'
 import { useNavigate } from 'react-router-dom'
 import '../css/products.css'
+import { useSelector } from 'react-redux'
 
 
 export const ProductsPage = () => {
     const emptyImage = new CloudinaryImage('/various/products/product_empty_spnh8q', { cloudName: 'deelxfjof' }).resize(fill().width(250).height(250));
-    const auth = useContext(AuthContext)
     const navigate = useNavigate()
     const { request } = useHttp()
     const [empty, setEmpty] = useState(false)
     const [products, setProducts] = useState([])
+    const token = useSelector(state => state.token)
+    const userId = useSelector(state => state.userId)
+    const newMessage = useSelector(state => state.newMessage)
+    const newMessageFlag = useSelector(state => state.newMessageFlag)
 
     const deleteHandler = async (event) => {
         const sure = window.confirm("You sure you want to delete this item?")
@@ -27,7 +30,7 @@ export const ProductsPage = () => {
 
         try {
             const productId = event.target.name
-            const response = await request("/api/products/delete-product", "POST", { productId: productId }, { token: auth.jwtToken })
+            const response = await request("/api/products/delete-product", "POST", { productId: productId }, { token: token })
 
             if (response.status === 200) {
                 alert("Product has been deleted")
@@ -42,7 +45,7 @@ export const ProductsPage = () => {
 
     useEffect(() => {
         try {
-            request("/api/products/get-products-by-user", "POST", { userId: auth.userId }, { token: auth.jwtToken }).then(response => {
+            request("/api/products/get-products-by-user", "POST", { userId: userId }, { token: token }).then(response => {
                 if (response.status === 400) {
                     setEmpty(true)
                     return
@@ -107,9 +110,9 @@ export const ProductsPage = () => {
             }
             <Footer />
             {
-                auth.newMessageFlag
+                newMessageFlag
                     ?
-                    <NotificationMSG message={auth.newMessage} />
+                    <NotificationMSG message={newMessage} />
                     :
                     ""
             }
