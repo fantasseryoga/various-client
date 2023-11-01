@@ -1,5 +1,4 @@
 {
-  "homepage": "http://fantasseryoga.github.io/various-client",
   "name": "client",
   "version": "0.1.0",
   "private": true,
@@ -30,7 +29,7 @@
     "socket.io-client": "^4.6.1",
     "web-vitals": "^2.1.4"
   },
-  "proxy": "http://54.198.76.135",
+  "proxy": "http://52.23.255.170:5000",
   "scripts": {
     "start": "react-scripts start",
     "predeploy": "npm run build",

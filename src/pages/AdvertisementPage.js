@@ -44,7 +44,8 @@ export const AdvertisementPage = () => {
         advCategories: [],
         advCities: [],
         advComments: [],
-        user: ""
+        user: "",
+        mine: false
     })
     const token = useSelector(state => state.token)
     const newMessage = useSelector(state => state.newMessage)
@@ -56,6 +57,10 @@ export const AdvertisementPage = () => {
 
     const handleRate = async () => {
         try {
+            if(advertisement.mine){
+                return
+            }
+            
             if (!rating) {
                 alert("You should set the value for stars")
                 return
@@ -373,7 +378,7 @@ export const AdvertisementPage = () => {
                                         />
                                     </div>
                                     <div className='col s2 rate-btn'>
-                                        <a className="waves-effect waves-light btn m-t" onClick={handleRate}>
+                                        <a className={advertisement.mine ? "waves-effect waves-light btn m-t disabled" : "waves-effect waves-light btn m-t"} onClick={handleRate}>
                                             {
                                                 loading
                                                     ? <div className="load"></div>

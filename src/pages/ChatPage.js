@@ -61,6 +61,12 @@ export const ChatPage = () => {
         }
     }
 
+    const handleKeyDown = event => {
+        if(event.key === 'Enter'){
+            onMessageSend()
+        }
+    }
+
     const fileAttachmentHandler = event => {
         try {
             const fileAttachment = event.target.files[0]
@@ -101,6 +107,7 @@ export const ChatPage = () => {
                             setCurrentCompanion(el.companion)
                         }
                     });
+                    // console.log(currentCompanion)
                 }
             })
 
@@ -108,7 +115,6 @@ export const ChatPage = () => {
                 if (chat.chat) {
                     setCurrentChat(chat.chat)
                     setCurrentCompanion(chat.companion)
-
                     const newChats = chats.map(el => {
                         el.current = false
                         if (el._id === chat.chat._id) {
@@ -123,7 +129,6 @@ export const ChatPage = () => {
 
             socket.on('send-message', message => {
                 if (message.message) {
-                    console.log(message.message)
                     setCurrentChat({ ...currentChat, messages: [...currentChat.messages, message.message] })
                 }
             })
@@ -235,19 +240,21 @@ export const ChatPage = () => {
                         </div>
                         <div className='chat-footer d-flex j-c-b'>
                             <div className="input-field chat-input">
-                                <textarea id="chat-text" className="materialize-textarea msg-input" name='chat-text' ref={inputTextRef} maxLength={200} onChange={changeHandler}></textarea>
+                                <textarea id="chat-text" className="materialize-textarea msg-input" name='chat-text' ref={inputTextRef} maxLength={200} onChange={changeHandler} onKeyDown={handleKeyDown}></textarea>
                                 <label htmlFor="chat-text">Enter Message</label>
                             </div>
                             <div className="file-field message-attachment-input input-field">
                                 <div className="btn btn-upload msg-file-uploader">
                                     <span>File</span>
-                                    <input type="file" ref={inputFileRef} accept="image/png, image/gif, image/jpeg" onChange={fileAttachmentHandler} />
+                                    <input type="file" ref={inputFileRef} accept="image/png, image/gif, image/jpeg" onChange={fileAttachmentHandler}/>
                                 </div>
                                 <div className="file-path-wrapper">
                                     <input className="file-path validate msg-input" ref={inputFilePathRef} type="text" />
                                 </div>
                             </div>
-                            <a className='btn send-message-btn' onClick={onMessageSend}>SEND</a>
+                            <span>
+                                <a className='btn send-message-btn' onClick={onMessageSend}>SEND</a>
+                            </span>
                         </div>
                     </div>
                 </div>
