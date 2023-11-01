@@ -63,6 +63,7 @@ export const ChatPage = () => {
 
     const handleKeyDown = event => {
         if(event.key === 'Enter'){
+            event.preventDefault()
             onMessageSend()
         }
     }
