@@ -41,7 +41,7 @@ export const AddAdvertisementPage = () => {
         }
 
         const body = Object.fromEntries(Object.entries(advertisement).filter(([_, v]) => v != null))
-        const response = await request(proxy + "/api/advertisements/create-advertisement", "POST", body, { token: token })
+        const response = await request("/api/advertisements/create-advertisement", "POST", body, { token: token })
 
         if (response.status === 201) {
             alert("Advertisement has been created")
@@ -106,12 +106,12 @@ export const AddAdvertisementPage = () => {
 
     useEffect(() => {
         try{
-            request(proxy + "/api/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
-            request(proxy + "/api/category/get-categories").then((data => data.json())).then((val) => setOptionsCategory(val.categories.map(el => {
+            request("/api/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
+            request("/api/category/get-categories").then((data => data.json())).then((val) => setOptionsCategory(val.categories.map(el => {
                 return { name: el.name, id: el._id }
             })))
 
-            request(proxy + "/api/products/get-products-by-user", "POST", { userId: userId }, { token: token }).then(data => data.json()).then(productData => {
+            request("/api/products/get-products-by-user", "POST", { userId: userId }, { token: token }).then(data => data.json()).then(productData => {
                 setOptionsProducts(productData.products.map(el => {
                     const name = el.name.slice(0, 15) + '... ' + el.createdOn.slice(0, 10)
                     return { id: el._id, name: name, realName: el.name, description: el.description, createdOn: el.createdOn, image: el.image }
