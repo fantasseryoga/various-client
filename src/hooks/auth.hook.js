@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect } from 'react'
 import socketIO from "socket.io-client"
 import { useDispatch, useSelector } from 'react-redux'
-const SERVER = ""
 
 const storageName = 'userData'
 
@@ -11,6 +10,7 @@ export const useAuth = () => {
     const [socket, setSocket] = useState(null)
     const [userId, setUserId] = useState(null)
     const dispatch = useDispatch()
+    const proxy = useSelector(state => state.server)
 
 
     const login = useCallback((jwt, userId) => {
@@ -40,7 +40,7 @@ export const useAuth = () => {
 
         if (data && data.token) {
             login(data.token, data.userId)
-            const socketIo = socketIO.connect(SERVER, { auth: { token: data.token } })
+            const socketIo = socketIO.connect(proxy, { auth: { token: data.token } })
             setSocket(socketIo)
         }
 

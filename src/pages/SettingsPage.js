@@ -41,6 +41,7 @@ export const SettingsPage = () => {
     const userId = useSelector(state => state.userId)
     const newMessage = useSelector(state => state.newMessage)
     const newMessageFlag = useSelector(state => state.newMessageFlag)
+    const proxy = useSelector(state => state.server)
 
     const updateHandler = async () => {
         if (!form.password) {
@@ -136,7 +137,7 @@ export const SettingsPage = () => {
 
     useEffect(() => {
         try {
-            fetch("api/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
+            fetch(proxy + "/api/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
 
             const userIdP = userId
             request("/api/users/get-profile", "POST", { userId: userIdP }, { token: token }).then(data => data.json()).then(userData => {

@@ -1,11 +1,11 @@
 import { useState, useCallback, useContext } from 'react'
 import { useSelector } from 'react-redux'
-const proxy = ""
 
 export const useHttp = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const logout = useSelector(state => state.logout)
+    const proxy = useSelector(state => state.server)
 
     const request = useCallback(async (url, method = 'GET', body = null, headers = {}) => {
         setLoading(true)

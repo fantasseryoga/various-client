@@ -6,6 +6,7 @@ import { useHttp } from "../hooks/http.hook"
 import { useNavigate } from "react-router-dom"
 import '../css/auth.css'
 import '../css/loading.css'
+import { useSelector } from 'react-redux'
 
 
 export const RegisterPage = () => {
@@ -22,6 +23,7 @@ export const RegisterPage = () => {
         city: '',
         passwordR: ''
     })
+    const proxy = useSelector(state => state.server)
 
     const changeHandler = event => {
         setForm({ ...form, [event.target.name]: event.target.value })
@@ -58,7 +60,7 @@ export const RegisterPage = () => {
                 const data = await response.json()
                 setFormErrors([])
 
-                alert('User has been created')
+                alert('User has been created succesfully')
 
                 navigate('/')
             }
@@ -76,7 +78,7 @@ export const RegisterPage = () => {
 
     useEffect(() => {
         try{
-            fetch("api/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
+            fetch(proxy + "/api/cities/get-cities").then((data => data.json())).then((val) => setOptionsCity(val.cities.map(el => el.name)))
         } catch (e) {
             setOptionsCity(["Lviv", "Kyiv", "Kharkiv"])
         }
