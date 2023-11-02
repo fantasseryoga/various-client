@@ -96,6 +96,17 @@ export const SettingsPage = () => {
         setForm({ ...form, [event.target.name]: event.target.value })
     }
 
+    const phoneInput = event => {
+        const re = /^[+0-9\b]+$/;
+        if ((!re.test(event.target.value) || !re.test(event.key)) && event.target.value !== '') {
+            if (event.key !== "Backspace" && event.key !== "Enter" && event.key !== "ArrowRight" && event.key !== "ArrowLeft" && event.key != "Shift") {
+                event.preventDefault()
+                return
+            }
+        }
+        setForm({ ...form, [event.target.name]: event.target.value })
+    }
+
     const avatarChangeHandler = event => {
         try {
             const avatarImg = event.target.files[0]
@@ -115,14 +126,14 @@ export const SettingsPage = () => {
 
     const modeHandler = event => {
         const sure = window.confirm("If you change the mode page will be refreshed, you sure?")
-        if(!sure) return
+        if (!sure) return
 
         if (modeP === "dark") {
-            dispatch({type: "SET_MODE", payload: "light"})
+            dispatch({ type: "SET_MODE", payload: "light" })
             localStorage.setItem("mode", JSON.stringify("light"))
             setMode("light")
         } else {
-            dispatch({type: "SET_MODE", payload: "dark"})
+            dispatch({ type: "SET_MODE", payload: "dark" })
             setMode("dark")
             localStorage.setItem("mode", JSON.stringify("dark"))
         }
@@ -167,7 +178,7 @@ export const SettingsPage = () => {
                     </div>
                     <div className='row'>
                         <div className="input-field col s6">
-                            <input placeholder="Enter your phone number" name="phoneNumber" id="phone" defaultValue={user.phoneNumber} type="tel" className="validate" onChange={changeHandler} />
+                            <input placeholder="Enter your phone number" name="phoneNumber" id="phone" defaultValue={user.phoneNumber} type="text" inputMode='numeric' maxLength={12} className="validate" onKeyDown={phoneInput} />
                             <label htmlFor="phone">Phone</label>
                         </div>
                         <div className="input-field col s6">

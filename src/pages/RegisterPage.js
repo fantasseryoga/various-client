@@ -29,6 +29,17 @@ export const RegisterPage = () => {
         setForm({ ...form, [event.target.name]: event.target.value })
     }
 
+    const phoneInput = event => {
+        const re = /^[0-9\b]+$/;
+        if ((!re.test(event.target.value) && event.target.value !== '') || !re.test(event.key)) {
+            if (event.key !== "Backspace" && event.key !== "Enter" && event.key !== "ArrowRight" && event.key !== "ArrowLeft" && event.key != "Shift") {
+                event.preventDefault()
+                return
+            }
+        }
+        setForm({ ...form, [event.target.name]: event.target.value })
+    }
+
     const registerHandler = async () => {
         try {
             if (form.email === '' || form.password === '' || form.firstName === '' || form.surName === '' || form.phoneNumber === '' || form.city === '' || form.passwordR === '') {
@@ -108,7 +119,7 @@ export const RegisterPage = () => {
                         </div>
                         <div className='row'>
                             <div className="input-field col s6">
-                                <input placeholder="Enter your phone number" name="phoneNumber" id="phone" type="tel" className="validate" onChange={changeHandler} />
+                                <input placeholder="Enter your phone number" name="phoneNumber" id="phone" maxLength={13} type="text" className="validate" onKeyDown={phoneInput} />
                                 <label htmlFor="phone">Phone</label>
                             </div>
                             <div className="input-field col s6">

@@ -39,10 +39,13 @@ export const Navbar = (chat = null) => {
             msgData => {
                 if (msgData.unreadExists) {
                     setNewMessage(true)
+                } else{
+                    setNewMessage(false)
                 }
+                
             }
         )
-    }, [request, window.location.href])
+    }, [request, window.location.href, chat])
 
     useEffect(() => {
         const M = window.M;

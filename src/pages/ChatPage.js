@@ -120,6 +120,7 @@ export const ChatPage = () => {
                         el.current = false
                         if (el._id === chat.chat._id) {
                             el.current = true
+                            el.unread = false
                         }
                         return el
                     })

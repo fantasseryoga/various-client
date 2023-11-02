@@ -132,6 +132,10 @@ hr {
     background-color:#527e9c;
 }
 
+.hidden{
+    display: none;
+}
+
 
 @media screen and (max-width: 1400px) {
     .advertisement-page-container {

@@ -360,7 +360,7 @@ export const AdvertisementPage = () => {
                                 }
                             </TabPanel>
                             <TabPanel>
-                                <div className="row">
+                                <div className={advertisement.mine ? "hidden" : "row"}>
                                     <h5 className='text-shadow center-align'>Rate this advertisement</h5>
                                     <form class="col s8 rate-input">
                                         <div className="row rating-form">
