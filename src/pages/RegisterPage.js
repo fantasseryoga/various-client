@@ -31,13 +31,14 @@ export const RegisterPage = () => {
 
     const phoneInput = event => {
         const re = /^[0-9\b]+$/;
-        if ((!re.test(event.target.value) && event.target.value !== '') || !re.test(event.key)) {
-            if (event.key !== "Backspace" && event.key !== "Enter" && event.key !== "ArrowRight" && event.key !== "ArrowLeft" && event.key != "Shift") {
+        const value = event.target.value.replace("+", '')
+        if ((!re.test(value) && value !== '') || !re.test(event.key)) {
+            if (event.key !== "Backspace" && event.key !== "Enter" && event.key !== "ArrowRight" && event.key !== "ArrowLeft" && event.key != "Shift" && event.key !== "Unidentified" && event.key !== undefined) {
                 event.preventDefault()
                 return
             }
         }
-        setForm({ ...form, [event.target.name]: event.target.value })
+        setForm({ ...form, [event.target.name]: value})
     }
 
     const registerHandler = async () => {
@@ -99,7 +100,7 @@ export const RegisterPage = () => {
         <>
             <div className='cnt-1'>
                 <div className='cnt-2'>
-                    <div className='container registration-form'>
+                    <form className='container registration-form'>
                         <h3 className='white-text center-align login-text'>Registration</h3>
                         <div className='row'>
                             <div className="input-field col s6">
@@ -119,7 +120,7 @@ export const RegisterPage = () => {
                         </div>
                         <div className='row'>
                             <div className="input-field col s6">
-                                <input placeholder="Enter your phone number" name="phoneNumber" id="phone1" onpaste="return false;" ondrop="return false;" autocomplete="off" maxLength={13} type="text" className="validate" onKeyDown={phoneInput} />
+                                <input placeholder="Enter your phone number" name="phoneNumber" id="phone" maxLength={13} type="text" className="validate" onKeyDown={phoneInput} onChange={phoneInput}/>
                                 <label htmlFor="phone">Phone</label>
                             </div>
                             <div className="input-field col s6">
@@ -162,7 +163,7 @@ export const RegisterPage = () => {
                             }
                         </a>
                         <h5 className='auth-links center-align'><a className='a-underline cursor-pointer' role='button'>Sign-Up</a> / <a className='a-underline cursor-pointer' role='button' onClick={() => navigate("/")}>Sign-In</a></h5>
-                    </div>
+                    </form>
                     <div className='cnt-3 white-text center-align'>
                         <FontAwesomeIcon icon={faTelegram} className="favicon" />
                         <FontAwesomeIcon icon={faInstagram} className="favicon" />
