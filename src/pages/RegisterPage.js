@@ -119,7 +119,7 @@ export const RegisterPage = () => {
                         </div>
                         <div className='row'>
                             <div className="input-field col s6">
-                                <input placeholder="Enter your phone number" name="phoneNumber" id="phone" onpaste="return false;" ondrop="return false;" autocomplete="off" maxLength={13} type="text" className="validate" onKeyDown={phoneInput} />
+                                <input placeholder="Enter your phone number" name="phoneNumber" id="phone1" onpaste="return false;" ondrop="return false;" autocomplete="off" maxLength={13} type="text" className="validate" onKeyDown={phoneInput} />
                                 <label htmlFor="phone">Phone</label>
                             </div>
                             <div className="input-field col s6">
