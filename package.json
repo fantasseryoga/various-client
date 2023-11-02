@@ -29,7 +29,7 @@
     "socket.io-client": "^4.6.1",
     "web-vitals": "^2.1.4"
   },
-  "proxy": "http://52.23.255.170:5000",
+  "proxy": "http://54.174.202.242:5000",
   "scripts": {
     "start": "react-scripts start",
     "predeploy": "npm run build",

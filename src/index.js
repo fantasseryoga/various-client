@@ -10,7 +10,7 @@ function noop() {}
 
 const defaultState = {
     token: null,
-    server: "http://52.23.255.170:5000",
+    server: "http://54.174.202.242:5000",
     login: noop,
     logout: noop,
     isAuthenticated: false,
