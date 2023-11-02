@@ -178,7 +178,7 @@ export const SettingsPage = () => {
                     </div>
                     <div className='row'>
                         <div className="input-field col s6">
-                            <input placeholder="Enter your phone number" name="phoneNumber" id="phone" defaultValue={user.phoneNumber} type="text" inputMode='numeric' maxLength={12} className="validate" onKeyDown={phoneInput} />
+                            <input placeholder="Enter your phone number" onpaste="return false;" ondrop="return false;" autocomplete="off" name="phoneNumber" id="phone" defaultValue={user.phoneNumber} type="text" inputMode='numeric' maxLength={12} className="validate" onKeyDown={phoneInput} />
                             <label htmlFor="phone">Phone</label>
                         </div>
                         <div className="input-field col s6">
