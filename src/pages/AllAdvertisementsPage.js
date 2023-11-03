@@ -14,6 +14,7 @@ import { CloudinaryImage } from '@cloudinary/url-gen';
 import { NotificationMSG } from '../components/Notification'
 import '../css/list-adv.css'
 import { useSelector } from 'react-redux'
+import { SideChat } from '../components/SideChat'
 
 
 export const AllAdvertisementsPage = () => {
@@ -392,6 +393,7 @@ export const AllAdvertisementsPage = () => {
                 />
             </div>
             <Footer />
+            <SideChat />
             {
                 newMessageFlag
                     ?

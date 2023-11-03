@@ -123,6 +123,7 @@
 }
 
 .message {
+    word-break: break-all;
     font-weight: 300;
     background-color: var(--blueLight);
     width: fit-content;
@@ -151,6 +152,10 @@
 .last-message-chat {
     color: white;
     font-weight: 300;
+}
+
+.no-wrap-txt{
+    white-space: nowrap;
 }
 
 .not-read {

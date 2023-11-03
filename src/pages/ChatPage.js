@@ -1,24 +1,20 @@
 import { React, useContext, useEffect, useRef, useState } from 'react'
 import { Navbar } from "../components/Navbar"
 import { Footer } from "../components/Footer"
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { SideNavComponent } from '../components/SideNavComp'
 import { AdvancedImage } from "@cloudinary/react"
 import { fill } from "@cloudinary/url-gen/actions/resize";
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import '../css/chat.css'
 import { useSelector } from 'react-redux'
+import { MessagesContainer } from '../components/MessagesContainer'
 
 
 export const ChatPage = () => {
     const emptyAvatar = new CloudinaryImage('/various/static/avatar-empty_xqyyk1', { cloudName: 'deelxfjof' }).resize(fill().width(250).height(250));
     const userIdParam = useParams().userId
-    const navigate = useNavigate()
     const dummyDivToScroll = useRef()
-    const inputTextRef = useRef()
-    const inputFileRef = useRef()
-    const inputFilePathRef = useRef()
-    const [inputText, setInputText] = useState(null)
     const [fileSend, setFileSend] = useState(null)
     const [chats, setChats] = useState([])
     const [currentChat, setCurrentChat] = useState({
@@ -34,56 +30,11 @@ export const ChatPage = () => {
         _id: null
     })
     const token = useSelector(state => state.token)
-    const userId = useSelector(state => state.userId)
     const socket = useSelector(state => state.socket)
 
     const [connected, setConnected] = useState(socket ? socket.connected : false)
-    if(!connected){
+    if (!connected) {
         socket.on('connected', () => { setConnected(true) })
-    }
-    
-    const changeHandler = (event) => {
-        setInputText(event.target.value)
-    }
-
-    const onMessageSend = event => {
-        try {
-            socket.emit("send-message", { chatId: currentChat._id, msg: inputTextRef.current.value, attachment: fileSend }, { token: token })
-            setInputText("")
-            setFileSend(null)
-            inputTextRef.current.value = ""
-            inputFileRef.current.value = null
-            inputFilePathRef.current.value = null
-        }
-        catch (e) {
-            console.log(e)
-            alert("Sorry sth went wrong, try to reload the page.")
-        }
-    }
-
-    const handleKeyDown = event => {
-        if(event.key === 'Enter'){
-            event.preventDefault()
-            onMessageSend()
-        }
-    }
-
-    const fileAttachmentHandler = event => {
-        try {
-            const fileAttachment = event.target.files[0]
-            let reader = new FileReader()
-            reader.readAsDataURL(fileAttachment)
-            reader.onload = () => {
-                setFileSend(reader.result)
-            }
-            reader.onerror = () => {
-                alert("Your file wasn't loaded.")
-            }
-        }
-        catch (e) {
-            console.log(e)
-            alert("Sorry sth went wrong, try to reload the page.")
-        }
     }
 
     const selectChatHandler = (event) => {
@@ -150,25 +101,22 @@ export const ChatPage = () => {
     }
 
     useEffect(() => {
-        if(connected){
+        if (connected) {
             if (userIdParam) {
-                socket.emit("get-chats", { profileId: userIdParam }, { token: token })
+                socket.emit("get-chats", { profile: { profileId: userIdParam } }, { token: token })
             } else {
-                socket.emit("get-chats", { profileId: null }, { token: token })
+                socket.emit("get-chats", { profile: { profileId: null } }, { token: token })
             }
         }
+
     }, [connected])
 
     useEffect(() => {
-        if(connected){
+        if (connected) {
             configureSocket()
             dummyDivToScroll.current.scrollIntoView({ block: 'nearest' })
         }
     }, [currentChat, chats, connected])
-
-    useEffect(() => {
-        window.M.updateTextFields()
-    }, [])
 
     return (
         <>
@@ -205,60 +153,7 @@ export const ChatPage = () => {
                             })
                         }
                     </div>
-                    <div className='chat-window col s8'>
-                        <div className='chat-header'>
-                            <h5 className='center-align companion-name-chat'><a className='text-white companion-name-link' role='button' onClick={() => navigate('/profile/' + currentCompanion._id)}>{currentCompanion.firstName + " " + currentCompanion.surName}</a></h5>
-                        </div>
-                        <div className='chat-messages-cnt'>
-                            {
-                                currentChat.messages.length ?
-                                    currentChat.messages.map(el => {
-                                        return (
-                                            <div key={el._id} className={el.createdBy === userId ? (el.read ? 'message my-message' : 'message my-message not-read') : 'message not-my-message'}>
-                                                {
-                                                    el.attachment
-                                                        ?
-                                                        <div>
-                                                            <AdvancedImage cldImg={new CloudinaryImage("various/messages/" + el.attachment, { cloudName: 'deelxfjof' }).resize(fill().width(250).height(250))} className="adv-img" />
-                                                            <br />{el.text} <br />
-                                                            <span className='time-message'>{el.createdOn.slice(0, 10) + " " + el.createdOn.slice(11, 16)}</span>
-                                                        </div>
-                                                        :
-                                                        <>
-                                                            {el.text} < br />
-                                                            <span className='time-message'>{el.createdOn.slice(0, 10) + " " + el.createdOn.slice(11, 16)}</span>
-                                                        </>
-
-                                                }
-                                            </div>
-                                        )
-                                    })
-                                    :
-                                    <h3 className='empty-messages-text'>No Messages Here..</h3>
-                            }
-                            <div style={{ float: "left", clear: "both" }}
-                                ref={dummyDivToScroll}>
-                            </div>
-                        </div>
-                        <div className='chat-footer d-flex j-c-b'>
-                            <div className="input-field chat-input">
-                                <textarea id="chat-text" className="materialize-textarea msg-input" name='chat-text' ref={inputTextRef} maxLength={200} onChange={changeHandler} onKeyDown={handleKeyDown}></textarea>
-                                <label htmlFor="chat-text">Enter Message</label>
-                            </div>
-                            <div className="file-field message-attachment-input input-field">
-                                <div className="btn btn-upload msg-file-uploader">
-                                    <span>File</span>
-                                    <input type="file" ref={inputFileRef} accept="image/png, image/gif, image/jpeg" onChange={fileAttachmentHandler}/>
-                                </div>
-                                <div className="file-path-wrapper">
-                                    <input className="file-path validate msg-input" ref={inputFilePathRef} type="text" />
-                                </div>
-                            </div>
-                            <span>
-                                <a className='btn send-message-btn' onClick={onMessageSend}>SEND</a>
-                            </span>
-                        </div>
-                    </div>
+                    <MessagesContainer socket={socket} currentChat={currentChat} currentCompanion={currentCompanion} dummyDivToScroll={dummyDivToScroll} />
                 </div>
             </div>
 

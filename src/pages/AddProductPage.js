@@ -6,6 +6,7 @@ import { SideNavComponent } from '../components/SideNavComp'
 import { NotificationMSG } from '../components/Notification'
 import '../css/profile.css'
 import { useSelector } from 'react-redux'
+import { SideChat } from '../components/SideChat'
 
 
 export const AddProductPage = () => {
@@ -126,6 +127,7 @@ export const AddProductPage = () => {
                 </div>
             </div>
             <Footer />
+            <SideChat />
             {
                 newMessageFlag
                     ?

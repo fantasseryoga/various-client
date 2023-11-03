@@ -28,12 +28,6 @@ export const Navbar = (chat = null) => {
         navigate('/')
     }
 
-    const navigateTo = (event) => {
-        if (Object.keys(chat).length) {
-            socket.emit('leave-chat', { chatId: chat.chat }, { token: token })
-        }
-    }
-
     useEffect(() => {
         request("/api/chats/get-unread-messages", "POST", {}, { token: token }).then(data => data.json()).then(
             msgData => {
@@ -60,27 +54,27 @@ export const Navbar = (chat = null) => {
             <div className='navbar-fixed'>
                 <nav className='materialize-nav'>
                     <div className="nav-wrapper">
-                        <a role='button' className="brand-logo cursor-pointer" id="/advertisements-list" onClick={() => { navigateTo(); navigate("/advertisements-list") }}>
+                        <a role='button' className="brand-logo cursor-pointer" id="/advertisements-list" onClick={() =>  navigate("/advertisements-list") }>
                             <FontAwesomeIcon icon={faShop} className="favicon" />
                             various
                         </a>
                         {/* <a href="#" data-target="mobile-demo" className="sidenav-trigger"><FontAwesomeIcon icon={faShop} className="favicon" /></a> */}
                         <ul className="right">
-                            <li><a role='button' id="/chat" onClick={() => { setNewMessage(false); dispatch({type: "SET_MSG", payload: {newMessage: null, newMessageFlag: false}}); navigateTo(); navigate("/chat") }}>
+                            <li><a role='button' id="/chat" onClick={() => { setNewMessage(false); dispatch({type: "SET_MSG", payload: {newMessage: null, newMessageFlag: false}}); navigate("/chat") }}>
                                 <FontAwesomeIcon icon={faMessage} className="favicon" />
                                 <span className='navbar-text'>
                                     <span className='navbar-new-msg-txt'>{newMessageP ? "New " : (newMessage ? "New " : "")}</span>
                                     Messages
                                 </span>
                             </a></li>
-                            <li><a role='button' id="/advertisements-list" onClick={() => { navigateTo(); navigate("/advertisements-list") }}>
+                            <li><a role='button' id="/advertisements-list" onClick={() => navigate("/advertisements-list") }>
                                 <FontAwesomeIcon icon={faList} className="favicon" />
                                 <span className='navbar-text'>
                                     Advertisements
                                 </span>
 
                             </a></li>
-                            <li><a role='button' id="/profile" onClick={() => { navigateTo(); navigate("/profile") }}>
+                            <li><a role='button' id="/profile" onClick={() =>  navigate("/profile") }>
                                 <FontAwesomeIcon icon={faUserTie} className="favicon" />
                                 <span className='navbar-text'>
                                     Profile

@@ -1,0 +1,43 @@
+.side-chat-cnt {
+    position: fixed;
+    bottom: 30px;
+    width: 52px;
+    right: 0;
+    border-radius: 40px 0 0 40px;
+    background-color: var(--blueLight);
+    transition: 0.4s ease-out;
+    z-index: 2;
+}
+
+.side-chat-msg-cnt{
+    background-color: var(--darkBack);
+    z-index: 2;
+    position: fixed;
+    bottom: 30px;
+    width: 400px;
+    right: 10px;
+    height: 550px;
+    border: 1px solid var(--blueLight);
+}
+
+.side-chat-item-user-info{
+    padding-left: 10px;
+}
+
+.side-chat-cnt:hover{
+    width: 202px;
+    transition: 0.3s ease-out;
+}
+
+.user-side-chat-img{
+    object-fit: cover;
+    width: 50px;
+    height: 50px;
+    border: 2px solid white;
+    border-radius: 50%;
+    border: 1px solid var(--blueLight);
+}
+
+.side-chat-item{
+    margin-bottom: 5px;
+}

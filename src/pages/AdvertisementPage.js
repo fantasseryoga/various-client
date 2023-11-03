@@ -16,6 +16,7 @@ import { NotificationMSG } from '../components/Notification'
 import 'react-tabs/style/react-tabs.css';
 import '../css/advertisement.css'
 import { useSelector } from 'react-redux'
+import { SideChat } from '../components/SideChat'
 
 
 export const AdvertisementPage = () => {
@@ -440,6 +441,7 @@ export const AdvertisementPage = () => {
                 </div>
             </div>
             <Footer />
+            <SideChat />
             {
                 newMessageFlag
                     ?

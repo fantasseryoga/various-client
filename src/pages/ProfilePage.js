@@ -13,6 +13,7 @@ import { CloudinaryImage } from '@cloudinary/url-gen';
 import { NotificationMSG } from '../components/Notification'
 import '../css/profile.css'
 import { useDispatch, useSelector } from 'react-redux'
+import { SideChat } from '../components/SideChat'
 
 
 export const ProfilePage = () => {
@@ -129,6 +130,7 @@ export const ProfilePage = () => {
                 </div>
             </div>
             <Footer />
+            <SideChat/>
             {
                 newMessageFlag
                     ?

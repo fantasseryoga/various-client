@@ -11,6 +11,7 @@ import { NotificationMSG } from '../components/Notification'
 import { useNavigate } from 'react-router-dom'
 import '../css/products.css'
 import { useSelector } from 'react-redux'
+import { SideChat } from '../components/SideChat'
 
 
 export const ProductsPage = () => {
@@ -109,6 +110,7 @@ export const ProductsPage = () => {
                 })
             }
             <Footer />
+            <SideChat />
             {
                 newMessageFlag
                     ?
